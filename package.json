@@ -1,0 +1,17 @@
+{
+  "name": "electron_test_work",
+  "version": "1.0.0",
+  "description": "test work",
+  "main": "./app/main.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Oleksii Smahin",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^10.1.3"
+  }
+}
