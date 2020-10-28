@@ -4,7 +4,8 @@ const mainProcess = remote.require('./main.js');
 window.addEventListener('DOMContentLoaded', () => {
     const configLink = document.getElementById("createConfigLink");
     if (configLink != null) {
-        configLink.addEventListener("click", () => {
+        configLink.addEventListener("click", (e) => {
+            e.preventDefault();
             console.log("DOM: clicked on link");
             mainProcess.onUrlClick();
         });
