@@ -1,5 +1,4 @@
-const { remote } = require('electron');
-const mainProcess = remote.require('./main.js');
+const { ipcRenderer } = require('electron');
 
 window.addEventListener('DOMContentLoaded', () => {
     const configLink = document.getElementById("createConfigLink");
@@ -7,7 +6,9 @@ window.addEventListener('DOMContentLoaded', () => {
         configLink.addEventListener("click", (e) => {
             e.preventDefault();
             console.log("DOM: clicked on link");
-            mainProcess.onUrlClick();
+            ipcRenderer.invoke("onUrlClicked").then(() => {
+                console.log("processed onUrlClicked event")
+            });
         });
     }
 
@@ -15,7 +16,9 @@ window.addEventListener('DOMContentLoaded', () => {
     if (floodLog != null) {
         floodLog.addEventListener('input', () => {
             console.log(`DOM: Typed ${floodLog.value}`);
-            mainProcess.onInputTyping(floodLog.value);
+            ipcRenderer.invoke("onInputTyping", floodLog.value).then(() => {
+                console.log("processed onInputTyping event")
+            });
         });
     }
 
@@ -23,14 +26,18 @@ window.addEventListener('DOMContentLoaded', () => {
     if (nextPage != null) {
         nextPage.addEventListener('click', (e) => {
             e.preventDefault();
-            mainProcess.goToSecondPage();
+            ipcRenderer.invoke("goToSecondPage").then(() => {
+                console.log("processed goToSecondPage event")
+            });
         });
     }
     const prevPage = document.getElementById("prevPage");
     if (prevPage != null) {
         prevPage.addEventListener('click', (e) => {
             e.preventDefault();
-            mainProcess.goToFirstPage();
+            ipcRenderer.invoke("goToFirstPage").then(() => {
+                console.log("processed goToFirstPage event")
+            });
         });
     }
 });

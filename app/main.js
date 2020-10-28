@@ -1,4 +1,4 @@
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path')
 
 let mainWindow = null;
@@ -6,10 +6,8 @@ app.on('ready', () => {
     mainWindow = new BrowserWindow({
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
-            nodeIntegration: false,
             worldSafeExecuteJavaScript: true,
             contextIsolation: true,
-            enableRemoteModule: true
         }
     });
 
@@ -27,18 +25,18 @@ app.on('ready', () => {
     // mainWindow.webContents.openDevTools()
 });
 
-exports.onUrlClick = () => {
+ipcMain.handle("onUrlClicked", () => {
     console.log("Clicked on URL")
-};
+});
 
-exports.onInputTyping = (typed) => {
-    console.log(`Typed ${typed}`)
-}
+ipcMain.handle("onInputTyping", (e, args) => {
+    console.log(`Typed ${args}`)
+});
 
-exports.goToSecondPage = () => {
+ipcMain.handle("goToSecondPage", () => {
     mainWindow.webContents.loadFile('app/second.html');
-}
+});
 
-exports.goToFirstPage = () => {
+ipcMain.handle("goToFirstPage", () => {
     mainWindow.webContents.loadFile('app/index.html');
-}
+});
