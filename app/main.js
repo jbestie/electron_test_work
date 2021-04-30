@@ -1,5 +1,8 @@
 const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path')
+const fs = require('fs');
+const jks = require('jks-js');
+const X509Cert = require('jks-js/lib/certs/X509Cert');
 
 let mainWindow = null;
 app.on('ready', () => {
@@ -26,7 +29,31 @@ app.on('ready', () => {
 });
 
 ipcMain.handle("onUrlClicked", () => {
-    console.log("Clicked on URL")
+    // const keystore = jks.toPem(
+    //     fs.readFileSync('keystore/server.keystore'),
+    //     'changeit1'
+    // );
+
+    // const { cert, key } = keystore['test'];
+    //
+    // console.log(cert);
+    // console.log(key);
+
+    const keystoreData = jks.parseJks( fs.readFileSync('keystore/server.keystore'),
+        'changeit1');
+
+    keystoreData.forEach( entry => {
+        console.log(entry.alias);
+        console.log(jks.decrypt(entry.protectedPrivateKey, 'changeit2'));
+        console.log(new X509Cert().generate(entry.chain[0].value));
+    })
+
+    // const { cert, key } = keystore['test'];
+    // console.log(cert);
+    // console.log(jks.decrypt(key, 'changeit2'));
+    // const decryptedKey = jks.decrypt(key, 'changeit2');
+    // console.log(decryptedKey)
+    // console.log("Clicked on URL")
 });
 
 ipcMain.handle("onInputTyping", (e, args) => {

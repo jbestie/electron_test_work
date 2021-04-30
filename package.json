@@ -3,15 +3,33 @@
   "version": "1.0.0",
   "description": "test work",
   "main": "./app/main.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
+    "pack": "electron-builder --dir",
+    "dist-win": "electron-builder -w",
+    "dist-linux": "electron-builder -l",
     "start": "electron ."
+  },
+  "build": {
+    "appId": "org.jbestie.app",
+    "win": {
+      "artifactName": "app.exe",
+      "target": "nsis",
+      "signAndEditExecutable": true
+    },
+    "linux": {
+      "artifactName": "App.bin",
+      "target": "AppImage"
+    }
   },
   "author": "Oleksii Smahin",
   "license": "ISC",
   "dependencies": {
-    "electron": "^10.1.3"
+    "jks-js": "^1.0.0",
+    "node-forge": "^0.10.0"
+  },
+  "devDependencies": {
+    "electron": "^11.2.1",
+    "electron-builder": "^22.7.0",
+    "electron-packager": "^15.2.0"
   }
 }
