@@ -9,6 +9,9 @@
     "dist-linux": "electron-builder -l",
     "start": "electron ."
   },
+  "files": [
+    "app/**/*"
+  ],
   "build": {
     "appId": "org.jbestie.app",
     "win": {
